@@ -1,0 +1,54 @@
+plugins {
+    id 'java'
+    // Apply the JaCoCo plugin
+    id 'jacoco'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    testCompile(
+            'org.junit.jupiter:junit-jupiter-api:5.4.0',
+            'org.hamcrest:hamcrest:2.1',
+            'org.assertj:assertj-core:3.15.0',
+            'org.apache.commons:commons-lang3:3.9',
+    )
+
+    testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.3.3'
+    testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.3.3'
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '2.1.0'
+    testCompile group: 'org.easymock', name: 'easymock', version: '4.2'
+    compile group: 'org.jongo', name: 'jongo', version: '1.4.1'
+    compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.2'
+    implementation 'com.google.guava:guava:28.1-jre'
+
+    testRuntime(
+            'org.junit.jupiter:junit-jupiter-engine:5.4.0',
+            'org.junit.vintage:junit-vintage-engine:5.4.0'
+    )
+}
+
+
+test {
+    useJUnitPlatform {
+        excludeTags 'slow'
+        includeEngines 'junit-jupiter', 'junit-vintage'
+    }
+}
+
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
