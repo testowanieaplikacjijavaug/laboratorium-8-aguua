@@ -10,7 +10,8 @@ import java.util.ArrayList;
 
 import org.easymock.EasyMockExtension;
 import org.easymock.MockType;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(EasyMockExtension.class)
@@ -35,7 +36,8 @@ public class EasyMockStrict {
         verify(mockList);
     }
 
-    @Test(expected = AssertionError.class)
+    @Disabled("Wrong order of using calls")
+    @Test
     public void  testRecodedCallsWrongOrder() {
         expect(mockList.add(10)).andReturn(true);
         expect(mockList.size()).andReturn(2);
