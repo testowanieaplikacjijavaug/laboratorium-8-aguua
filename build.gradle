@@ -1,0 +1,54 @@
+plugins {
+    id 'java'
+    // Apply the JaCoCo plugin
+    id 'jacoco'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+    testCompile group: 'org.junit.vintage', name: 'junit-vintage-engine', version: '5.6.1'
+    testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.6.1'
+    testCompile group: 'org.junit.platform', name: 'junit-platform-runner', version: '1.6.1'
+
+    // https://mvnrepository.com/artifact/org.assertj/assertj-core
+    testCompile group: 'org.assertj', name: 'assertj-core', version: '3.15.0'
+
+    // https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver
+    compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.2'
+
+    // https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
+    testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.3.3'
+
+    // https://mvnrepository.com/artifact/org.jongo/jongo
+    compile group: 'org.jongo', name: 'jongo', version: '1.4.1'
+
+    // https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
+    testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.3.3'
+
+    // https://mvnrepository.com/artifact/org.easymock/easymock
+    testCompile group: 'org.easymock', name: 'easymock', version: '4.2'
+
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '2.1.0'
+    compile group: 'com.google.guava', name: 'guava', version: 'r05'
+
+
+
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
