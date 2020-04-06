@@ -1,14 +1,17 @@
 package MockExamples;
 
 import org.easymock.EasyMock;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 
 
@@ -29,7 +32,7 @@ public class CarEasyTest {
     public void test_default_behavior_temperature(){
         assertEquals(0.0, myFerrari.getEngineTemperature(), "New test double should return 0.0");
     }
-    
+
     @Test
     public void test_stubbing_mock(){
         EasyMock.expect(myFerrari.needsFuel()).andReturn(true);
@@ -64,26 +67,39 @@ public class CarEasyTest {
         assertEquals(1.8, myFerrari.getEngineCapacity());
     }
 
-    @Disabled
     @Test  //4
     public void test_destination(){
-        final AtomicReference passedLocation = null;
-        final AtomicBoolean driveToCalled = new AtomicBoolean();
-        doAnswer( invocation -> {
-                    passedLocation.set(EasyMock.getCurrentArguments()[0]);
-                    driveToCalled.set(true);
-                    return null;
-                }).when(myFerrari).driveTo(anyString());
-        EasyMock.replay(myFerrari);
+        //prepare
+        String destination = "London";
+        ArrayList<String> visited = new ArrayList<>();
 
-        myFerrari.driveTo("London");
-        assertEquals("Longvdfdon", passedLocation);
-        assertEquals(true, driveToCalled.get());
-        EasyMock.verify();
+        //action
+        myFerrari.driveTo(destination);
+        EasyMock.expectLastCall().andAnswer(() -> {
+            visited.add((String) EasyMock.getCurrentArguments()[0]);
+           return null;
+        }).times(1);
+
+
+        replay(myFerrari);
+        //assert
+        myFerrari.driveTo(destination);
+
+        assertTrue(visited.contains(destination));
+
 
     }
     @Test  //5
-    public void test5(){}
+    public void test_list_of_location(){
+        ArrayList<String> visited = new ArrayList<String>(
+                Arrays.asList("Warszawa", "Kraków", "Zakopane"));
+        expect(myFerrari.visitedLocation()).andReturn(visited);
+        replay(myFerrari);
+        assertTrue(myFerrari.visitedLocation().containsAll(visited));
+
+
+
+    }
 
 
 }
