@@ -6,12 +6,11 @@ import org.easymock.TestSubject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.easymock.EasyMock.*;
-
-import java.util.Arrays;
-import java.util.List;
 
 @ExtendWith(EasyMockExtension.class)
 public class FriendshipsMongoEasyMockTest {
@@ -47,6 +46,42 @@ public class FriendshipsMongoEasyMockTest {
         replay(friends);
         replay(joe);
         assertThat(friendships.getFriendsList("Joe")).hasSize(5).containsOnly("Karol","Dawid","Maciej","Tomek","Adam");
+    }
+
+    @Test  //1
+    public void joeAndAlexAreNotFriends(){
+        assertThat(friendships.areFriends("Joe", "Alex")).isFalse();
+    }
+
+    @Test  //2
+    public void joeAndAlexAreFriends(){
+        List <String> expected = Arrays.asList(new String[]{"Karol","Alex"});
+        Person joe = createMock(Person.class);
+        expect(friends.findByName("Joe")).andReturn(joe);
+        expect(joe.getFriends()).andReturn(expected);
+        replay(friends);
+        replay(joe);
+        assertThat(friendships.areFriends("Joe", "Alex")).isTrue();
+    }
+
+    @Test  //3
+    public void getName(){
+        Person joe = createMock(Person.class);
+        expect(joe.getName()).andReturn("Joe");
+        replay(joe);
+        assertThat(joe.getName()).isEqualTo("Joe");
+    }
+    @Test //4
+    public void isInRealtionBase() {
+        Person joe = createMock(Person.class);
+        expect(friends.findByName("Joe")).andReturn(joe);
+        replay(friends);
+        assertThat(friendships.isInRelation("Joe")).isTrue();
+    }
+
+    @Test //5
+    public void isNotInRealtionBase() {
+        assertThat(friendships.isInRelation("Joe")).isFalse();
     }
 
 }

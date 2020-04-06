@@ -1,8 +1,5 @@
 package MockType;
-
-
 import MockExamples.Car;
-import org.easymock.EasyMock;
 import org.easymock.EasyMockExtension;
 import org.easymock.MockType;
 import org.junit.jupiter.api.Disabled;

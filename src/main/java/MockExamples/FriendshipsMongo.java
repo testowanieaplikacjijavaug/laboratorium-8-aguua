@@ -42,5 +42,13 @@ public class FriendshipsMongo {
         friends.save(p);
     }
 
+    public boolean isInRelation(String person1){
+        Person p = friends.findByName(person1);
+        if (p != null){
+             return true;
+        }
+        return false;
+    }
+
 
 }
